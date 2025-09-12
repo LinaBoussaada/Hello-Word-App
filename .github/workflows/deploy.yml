@@ -11,4 +11,4 @@ creds: ${{ secrets.AZURE_CREDENTIALS }}
 uses: azure/webapps-deploy@v2
 with:
 app-name: "ak";
-images: "linabsd/ak:v1";
+#images: "linabsd/ak:v1";
