@@ -1,16 +1,32 @@
-on :
-  push :
-deploy:
-needs: build # Démarre après le build
-runs-on: ubuntu-latest
-steps:
-- name: Log in to Azure
-uses: azure/login@v1
-with:
-creds: ${{ secrets.AZURE_CREDENTIALS }}
+name: CI/CD to Azure
 
-- name: Deploy to Azure Web App
-uses: azure/webapps-deploy@v2
-with:
-app-name: "ak";
-#images: "linabsd/ak:v1";
+on:
+  push:
+    branches:
+      - main   # or the branch you want to trigger on
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 👉 Add your build steps here
+      - name: Build
+        run: echo "Build step goes here"
+
+  deploy:
+    needs: build   # run after build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log in to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: "ak"
+          # images: "linabsd/ak:v1"   # uncomment if deploying a container
