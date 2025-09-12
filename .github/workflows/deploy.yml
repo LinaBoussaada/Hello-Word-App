@@ -1,3 +1,5 @@
+on :
+  push
 deploy:
 needs: build # Démarre après le build
 runs-on: ubuntu-latest
